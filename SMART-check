@@ -1,0 +1,46 @@
+#/bin/bash
+#set -x
+
+#Requiers smartmontools and POSTFIX
+
+SMARTHEALTHA=`sudo /usr/sbin/smartctl -H /dev/sda | grep -c PASSED`
+SMARTHEALTHB=`sudo /usr/sbin/smartctl -H /dev/sdb | grep -c PASSED`
+SMARTHEALTHC=`sudo /usr/sbin/smartctl -H /dev/sdc | grep -c PASSED`
+#SMARTHEALTH=0
+
+# DRIVE /dev/sda
+
+if [ $SMARTHEALTHA -ne 1 ]
+	then
+                echo "Drive: /dev/sda :" > /tmp/SMART-alert-email
+                echo "Command: /usr/sbin/smartctl -H /dev/sda" >> /tmp/SMART-alert-email 
+		sudo /usr/sbin/smartctl -H /dev/sda >> /tmp/SMART-alert-email
+                echo "See attached report." | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sda" -A /tmp/SMART-alert-email your.email.here@gmail.com
+ 		echo "See email!" | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sda" your.phone.number@carrier.SMS.email.gateway.com
+
+fi
+
+# DRIVE /dev/sdb
+
+if [ $SMARTHEALTHB -ne 1 ]
+	then
+                echo "Drive: /dev/sdb :" > /tmp/SMART-alert-email
+                echo "Command: /usr/sbin/smartctl -H /dev/sdb" >> /tmp/SMART-alert-email 
+		sudo /usr/sbin/smartctl -H /dev/sdb >> /tmp/SMART-alert-email
+                echo "See attached report." | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sdb" -A /tmp/SMART-alert-email your.email.here@gmail.com
+ 		echo "See email!" | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sdb" your.phone.number@carrier.SMS.email.gateway.com
+
+fi
+
+# DRIVE /dev/sdc
+
+if [ $SMARTHEALTHC -ne 1 ]
+	then
+                echo "Drive: /dev/sdc :" > /tmp/SMART-alert-email
+                echo "Command: /usr/sbin/smartctl -H /dev/sdc" >> /tmp/SMART-alert-email 
+		sudo /usr/sbin/smartctl -H /dev/sdc >> /tmp/SMART-alert-email
+                echo "See attached report." | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sdc" -A /tmp/SMART-alert-email your.email.here@gmail.com
+ 		echo "See email!" | mail -s "MOORE-NAS: SMART DISK HEALTH /dev/sdc" your.phone.number@carrier.SMS.email.gateway.com
+
+fi
+

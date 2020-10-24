@@ -1,0 +1,19 @@
+#/bin/bash
+#set -x
+
+RAIDSTATUS=`sudo /usr/sbin/mdadm --detail /dev/md* | grep "State :" | grep -c degraded`
+#RAIDSTATUS=1
+
+if [ $RAIDSTATUS -eq 1 ]
+	then
+		cat /proc/mdstat > /tmp/raid-alert-email
+		echo "#######################################################" >> /tmp/raid-alert-email
+		sudo /usr/sbin/mdadm --detail /dev/md2 >> /tmp/raid-alert-email
+		echo "#######################################################" >> /tmp/raid-alert-email
+		sudo /usr/sbin/mdadm --detail /dev/md1 >> /tmp/raid-alert-email
+		echo "#######################################################" >> /tmp/raid-alert-email
+		sudo /usr/sbin/mdadm --detail /dev/md1 >> /tmp/raid-alert-email
+                echo "See attached report." | mail -s "MOORE-NAS RAID IS DEGRADED!!!!" -A /tmp/raid-alert-email  visual.effects.artist@gmail.com
+ 		echo "See email!" | mail -s "MOORE-NAS RAID IS DEGRADED!!!!" 8135085322@tmomail.net
+
+fi
